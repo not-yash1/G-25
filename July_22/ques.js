@@ -1,21 +1,21 @@
 
 // Q1: What will be the output of the given code and why ?
 
-const person = {
-    name: 'John',
-    greet: function() {
+// const person = {
+//     name: 'John',
+//     greet: function() {
 
-        console.log(this.name);
+//         console.log(this.name);
         
-        const innerFunction = function() {
-            console.log(this.name);
-        };
+//         const innerFunction = function() {
+//             console.log(this.name);
+//         };
         
-        innerFunction();
-    }
-};
+//         innerFunction();
+//     }
+// };
 
-person.greet();
+// person.greet();
 
 
 
@@ -148,19 +148,19 @@ person.greet();
 
 // Q6: What will be the output of the given code and why ?
 
-a();
+// a();
 
-var a = function(){
-    console.log("Hello")
-}
+// var a = function(){
+//     console.log("Hello")
+// }
 
-a();
+// a();
 
-function a(){
-    console.log("World")
-}
+// function a(){
+//     console.log("World")
+// }
 
-a()
+// a()
   
   
 
@@ -168,21 +168,21 @@ a()
 
 // #NEXT
 
-// ab(1, 2);
+ab(1, 2);
 
-// function ab(a, b){
-//     console.log("First", a, b);
-//     console.log(this);
-// }
+function ab(a, b){
+    console.log("First", a, b);
+    console.log(this);
+}
 
-// ab(3, 4);
+ab(3, 4);
 
-// var ab = (a, b) => {
-//     console.log("Second", a, b);
-//     console.log(this);
-// }
+var ab = (a, b) => {
+    console.log("Second", a, b);
+    console.log(this);
+}
 
-// ab(5, 6);
+ab(5, 6);
 
 
 
