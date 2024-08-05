@@ -1,6 +1,5 @@
 
 import express from "express";
-import users from "./data.json" assert { type: "json" };
 
 const app = express();
 const PORT = 4000
