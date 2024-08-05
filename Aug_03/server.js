@@ -10,19 +10,21 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use("/", (req, res, next) => {
-    console.log(`Server is running at ${req.protocol}://${req.hostname}${PORT}/${req.path}`);
+app.use("/about", (req, res, next) => {
+    console.log(`Server is running at ${req.protocol}://${req.hostname}${PORT}/about${req.path}`);
     next();
 })
 
 app.get("/", (req, res) => {
-    console.log("Home get")
-    res.send(`Get Request`)
+    res.send(`Home Page`)
 })
 
-app.get("/users", (req, res) => {
-    res.send(users)
-    // console.log("Home get")
+app.get("/about", (req, res) => {
+    res.send(`About Page`)
+})
+
+app.get("/contact", (req, res) => {
+    res.send(`Contact Page`)
 })
 
 app.listen(PORT, () => {
