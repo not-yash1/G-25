@@ -12,10 +12,6 @@
 // 8. Creating MongoDB User
 // 9. Connecting MongoDB Cluster
 
-// AneBr2MTSMUZvtIO
-
-// mongodb+srv://yashu1singh1111:gXeLJhxIkE7AHhD2@cluster0.hjjb1.mongodb.net/
-
 
 // DB_URI = "mongodb+srv://<username>:<password>@mern-projects.pn3jint.mongodb.net/<DB_NAME>?retryWrites=true&w=majority";
 
