@@ -4,6 +4,7 @@ import { createUser, deleteUser, getUser, getUsers, loginUser, updateUser } from
 
 export const router = express.Router();
 
+
 router.post("/user", createUser)
 
 router.get("/users", getUsers)

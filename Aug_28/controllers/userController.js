@@ -1,23 +1,31 @@
 import { User } from "../models/userModel.js"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 export const createUser = async (req, res) => {
     try {
-
         // Parsing body
         const {name, email, password, username, mobile} = req.body
-        // console.log(req.body)
 
         // Checking body data
-        if(!name || !email || !password || !username || !mobile) {
+        if(!name || !email || !password || !username || !mobile){
             return res.status(400).json({
                 success: false,
                 message: "Please enter all fields..."
             })
         }
 
+        // Check user
+        let user = await User.findOne({email})
+        if(user){
+            return res.status(400).json({
+                success: false,
+                message: "User already exists"
+            })
+        }
+
         // Creating user
-        const user = await User.create({
+        user = await User.create({
             name,
             email,
             password,
@@ -25,11 +33,29 @@ export const createUser = async (req, res) => {
             mobile
         })
 
-        // Sending response
-        res.status(201).json({
-            success: true,
-            message: "User created successfully"
+        const token = jwt.sign(user, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRE
         })
+
+        const options = {
+            expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+            sameSite: "none",
+            secure: true
+        }
+
+        res.cookie("token", token, options).status(201).json({
+            success: true,
+            message: "User created successfully",
+            user,
+            token
+        })
+
+        // Sending response
+        // res.status(201).json({
+        //     success: true,
+        //     message: "User created successfully"
+        // })
         
     } catch (error) {
         res.status(500).json({
@@ -38,6 +64,46 @@ export const createUser = async (req, res) => {
         })
     }
 }
+
+// export const createUser = async (req, res) => {
+//     try {
+
+//         // Parsing body
+//         const {name, email, password, username, mobile} = req.body
+//         // console.log(req.body)
+
+//         // Checking body data
+//         if(!name || !email || !password || !username || !mobile) {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: "Please enter all fields..."
+//             })
+//         }
+
+//         const hash = await bcrypt.hash(password, 10)
+
+//         // Creating user
+//         const user = await User.create({
+//             name,
+//             email,
+//             password: hash,
+//             username,
+//             mobile
+//         })
+
+//         // Sending response
+//         res.status(201).json({
+//             success: true,
+//             message: "User created successfully"
+//         })
+        
+//     } catch (error) {
+//         res.status(500).json({
+//             success: false,
+//             message: error.message
+//         })
+//     }
+// }
 
 export const getUsers = async (req, res) => {
     try {
@@ -111,13 +177,8 @@ export const updateUser = async (req, res) => {
             })
         }
 
-        let user
         // Finding user
-        if(password){
-            user = await User.findById(id).select("+password")
-        } else {
-            user = await User.findById(id)
-        }
+        const user = await User.findById(id)
 
         // Checking user
         if(!user){
